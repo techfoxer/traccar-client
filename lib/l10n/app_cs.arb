@@ -31,5 +31,9 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "Spustit službu",
   "stopAction": "Zastavit službu",
-  "sosAction": "Odeslat SOS"
+  "sosAction": "Odeslat SOS",
+  "stopLabel": "Čas ukončení",
+  "startLabel": "Čas spuštění",
+  "scheduleLabel": "Plán aplikace"
+
 }

@@ -31,5 +31,8 @@
   "optimizationMessage": "Luotettavan paikannuksen varmistamiseksi, poista akun optimointi käytöstä tältä sovellukselta.",
   "startAction": "Käynnistä seuranta",
   "stopAction": "Lopeta seuranta",
-  "sosAction": "Lähetä SOS"
+  "sosAction": "Lähetä SOS",
+  "stopLabel": "Lopetusaika",
+  "startLabel": "Aloitusaika",
+  "scheduleLabel": "Sovelluksen aikataulu"
 }

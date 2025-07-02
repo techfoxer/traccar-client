@@ -31,5 +31,8 @@
   "optimizationMessage": "Para garantir rastreamento confiável, desative a otimização de bateria para este aplicativo.",
   "startAction": "Iniciar serviço",
   "stopAction": "Parar serviço",
-  "sosAction": "Enviar SOS"
+  "sosAction": "Enviar SOS",
+  "stopLabel": "Hora de término",
+  "startLabel": "Hora de início",
+  "scheduleLabel": "Agenda do aplicativo"
 }

@@ -31,5 +31,8 @@
   "optimizationMessage": "Per garantire un tracciamento affidabile, disattiva l'ottimizzazione batteria per questa app.",
   "startAction": "Avvia servizio",
   "stopAction": "Ferma servizio",
-  "sosAction": "Invia SOS"
+  "sosAction": "Invia SOS",
+  "stopLabel": "Ora di fine",
+  "startLabel": "Ora di inizio",
+  "scheduleLabel": "Programma dell'app"
 }

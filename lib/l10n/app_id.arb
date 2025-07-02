@@ -31,5 +31,6 @@
   "optimizationMessage": "Untuk memastikan pelacakan yang andal, nonaktifkan optimasi baterai untuk aplikasi ini.",
   "startAction": "Mulai layanan",
   "stopAction": "Hentikan layanan",
-  "sosAction": "Kirim SOS"
+  "sosAction": "Kirim SOS",
+  "stopLabel": "Waktu berhenti"
 }

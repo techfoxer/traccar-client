@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "شروع کار",
   "stopAction": "توقف کار",
-  "sosAction": "ارسال پیام اضطراری"
+  "sosAction": "ارسال پیام اضطراری",
+  "stopLabel": "زمان توقف",
+  "startLabel": "زمان شروع",
+  "scheduleLabel": "برنامه زمانی اپلیکیشن"
 }

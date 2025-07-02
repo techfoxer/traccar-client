@@ -31,5 +31,8 @@
   "optimizationMessage": "Para garantizar un seguimiento fiable, desactive la optimización de batería para esta aplicación.",
   "startAction": "Iniciar servicio",
   "stopAction": "Detener servicio",
-  "sosAction": "Enviar SOS"
+  "sosAction": "Enviar SOS",
+  "stopLabel": "Hora de finalización",
+  "startLabel": "Hora de inicio",
+  "scheduleLabel": "Horario de la aplicación"
 }

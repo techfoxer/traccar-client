@@ -31,5 +31,8 @@
   "optimizationMessage": "Güvenilir izleme için lütfen bu uygulama için pil optimizasyonunu devre dışı bırakın.",
   "startAction": "Servisi başlat",
   "stopAction": "Servisi durdur",
-  "sosAction": "SOS gönder"
+  "sosAction": "SOS gönder",
+  "stopLabel": "Bitiş saati",
+  "startLabel": "Başlangıç saati",
+  "scheduleLabel": "Uygulama programı"
 }

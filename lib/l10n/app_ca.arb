@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "Inicia el servei",
   "stopAction": "Atura el servei",
-  "sosAction": "Envia SOS"
+  "sosAction": "Envia SOS",
+  "stopLabel": "Hora de finalització",
+  "startLabel": "Hora d'inici",
+  "scheduleLabel": "Horari de l'aplicació"
 }

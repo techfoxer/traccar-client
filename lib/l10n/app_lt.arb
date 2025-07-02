@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "Įjungti servisą",
   "stopAction": "Sustabdyti servisą",
-  "sosAction": "Siųsti SOS"
+  "sosAction": "Siųsti SOS",
+  "stopLabel": "Pabaigos laikas",
+  "startLabel": "Pradžios laikas",
+  "scheduleLabel": "Programėlės tvarkaraštis"
 }

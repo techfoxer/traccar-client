@@ -31,5 +31,8 @@
   "optimizationMessage": "Schakel batterijoptimalisatie voor deze app uit om betrouwbare tracking te garanderen.",
   "startAction": "Service starten",
   "stopAction": "Service stoppen",
-  "sosAction": "SOS verzenden"
+  "sosAction": "SOS verzenden",
+  "stopLabel": "Eindtijd",
+  "startLabel": "Starttijd",
+  "scheduleLabel": "Appschema"
 }

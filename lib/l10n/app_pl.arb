@@ -31,5 +31,8 @@
   "optimizationMessage": "Aby zapewnić niezawodne śledzenie, wyłącz optymalizację baterii dla tej aplikacji.",
   "startAction": "Uruchom usługę",
   "stopAction": "Zatrzymaj usługę",
-  "sosAction": "Wyślij SOS"
+  "sosAction": "Wyślij SOS",
+  "stopLabel": "Godzina zakończenia",
+  "startLabel": "Godzina rozpoczęcia",
+  "scheduleLabel": "Harmonogram aplikacji"
 }

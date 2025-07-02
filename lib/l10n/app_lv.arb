@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "Startēt servisu",
   "stopAction": "Apturēt servisu",
-  "sosAction": "Sūtīt SOS"
+  "sosAction": "Sūtīt SOS",
+  "stopLabel": "Beigu laiks",
+  "startLabel": "Sākuma laiks",
+  "scheduleLabel": "Lietotnes grafiks"
 }

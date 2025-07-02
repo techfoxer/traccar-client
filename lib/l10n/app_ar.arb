@@ -31,5 +31,8 @@
   "optimizationMessage": "لضمان تتبع موثوق، يرجى تعطيل تحسين البطارية لهذا التطبيق.",
   "startAction": "بدء الخدمة",
   "stopAction": "إيقاف الخدمة",
-  "sosAction": "إرسال SOS"
+  "sosAction": "إرسال SOS",
+  "stopLabel": "وقت الإيقاف",
+  "startLabel": "وقت البدء",
+  "scheduleLabel": "جدول التطبيق"
 }

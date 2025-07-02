@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "Запустити сервіс",
   "stopAction": "Зупинити сервіс",
-  "sosAction": "Відправити SOS"
+  "sosAction": "Відправити SOS",
+  "stopLabel": "Час завершення",
+  "startLabel": "Час початку",
+  "scheduleLabel": "Розклад застосунку"
 }

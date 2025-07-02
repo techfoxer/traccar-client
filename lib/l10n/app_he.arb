@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "התחל מעקב",
   "stopAction": "עצור מעקב",
-  "sosAction": "שלח SOS"
+  "sosAction": "שלח SOS",
+  "stopLabel": "שעת סיום",
+  "startLabel": "שעת התחלה",
+  "scheduleLabel": "לוח זמנים של האפליקציה"
 }

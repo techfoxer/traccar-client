@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "启动服务",
   "stopAction": "停止服务",
-  "sosAction": "发送求救信号"
+  "sosAction": "发送求救信号",
+  "stopLabel": "结束时间",
+  "startLabel": "开始时间",
+  "scheduleLabel": "应用程序时间表"
 }

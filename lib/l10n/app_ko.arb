@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "서비스 시작",
   "stopAction": "서비스 중지",
-  "sosAction": "SOS 전송"
+  "sosAction": "SOS 전송",
+  "stopLabel": "종료 시간",
+  "startLabel": "시작 시간",
+  "scheduleLabel": "앱 일정"
 }

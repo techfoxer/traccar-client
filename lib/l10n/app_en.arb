@@ -33,5 +33,9 @@
   "passwordError": "Wrong password",
   "startAction": "Start service",
   "stopAction": "Stop service",
-  "sosAction": "Send SOS"
+  "sosAction": "Send SOS",
+  "stopLabel": "Stop time",
+  "startLabel": "Start time",
+  "scheduleLabel": "App schedule",
+  "notSetLabel": "Not set"
 }

@@ -31,5 +31,8 @@
   "optimizationMessage": "To ensure reliable tracking, please disable battery optimization for this app.",
   "startAction": "サービス開始",
   "stopAction": "サービス停止",
-  "sosAction": "SOSを送信"
+  "sosAction": "SOSを送信",
+  "stopLabel": "終了時間",
+  "startLabel": "開始時間",
+  "scheduleLabel": "アプリのスケジュール"
 }
