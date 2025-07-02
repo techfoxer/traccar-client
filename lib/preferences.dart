@@ -1,10 +1,13 @@
-
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_android/shared_preferences_android.dart';
+
+import 'models/schedule.dart';
 
 class Preferences {
   static late SharedPreferencesWithCache instance;
@@ -26,21 +29,55 @@ class Preferences {
   static const String lastLongitude = 'lastLongitude';
   static const String lastHeading = 'lastHeading';
 
+  static const scheduleKey = 'service_schedule';
+
   static Future<void> init() async {
     instance = await SharedPreferencesWithCache.create(
-      sharedPreferencesOptions: Platform.isAndroid
-        ? SharedPreferencesAsyncAndroidOptions(backend: SharedPreferencesAndroidBackendLibrary.SharedPreferences)
-        : SharedPreferencesOptions(),
+      sharedPreferencesOptions:
+          Platform.isAndroid
+              ? SharedPreferencesAsyncAndroidOptions(
+                backend:
+                    SharedPreferencesAndroidBackendLibrary.SharedPreferences,
+              )
+              : SharedPreferencesOptions(),
       cacheOptions: SharedPreferencesWithCacheOptions(
         allowList: {
-          id, url, accuracy, distance, interval, angle, heartbeat,
-          fastestInterval, buffer,  wakelock, stopDetection,
-          lastTimestamp, lastLatitude, lastLongitude, lastHeading,
-          'device_id_preference', 'server_url_preference', 'accuracy_preference',
-          'frequency_preference', 'distance_preference', 'buffer_preference',
+          id,
+          url,
+          accuracy,
+          distance,
+          interval,
+          angle,
+          heartbeat,
+          fastestInterval,
+          buffer,
+          wakelock,
+          stopDetection,
+          lastTimestamp,
+          lastLatitude,
+          lastLongitude,
+          lastHeading,
+          'device_id_preference',
+          'server_url_preference',
+          'accuracy_preference',
+          'frequency_preference',
+          'distance_preference',
+          'buffer_preference',
+          scheduleKey,
         },
       ),
     );
+  }
+
+  static Future<void> saveSchedule(ServiceSchedule schedule) async {
+    final jsonStr = jsonEncode(schedule.toJson());
+    await instance.setString(scheduleKey, jsonStr);
+  }
+
+  static ServiceSchedule? loadSchedule() {
+    final jsonStr = instance.getString(scheduleKey);
+    if (jsonStr == null) return null;
+    return ServiceSchedule.fromJson(jsonDecode(jsonStr));
   }
 
   static Future<void> migrate() async {
@@ -62,38 +99,60 @@ class Preferences {
     } else {
       await _migrate();
     }
-    await instance.setString(id, instance.getString(id) ?? (Random().nextInt(90000000) + 10000000).toString());
-    await instance.setString(url, instance.getString(url) ?? 'http://demo.traccar.org:5055');
-    await instance.setString(accuracy, instance.getString(accuracy) ?? 'medium');
+    await instance.setString(
+      id,
+      instance.getString(id) ??
+          (Random().nextInt(90000000) + 10000000).toString(),
+    );
+    await instance.setString(
+      url,
+      instance.getString(url) ?? 'http://demo.traccar.org:5055',
+    );
+    await instance.setString(
+      accuracy,
+      instance.getString(accuracy) ?? 'medium',
+    );
     await instance.setInt(interval, instance.getInt(interval) ?? 300);
     await instance.setInt(distance, instance.getInt(distance) ?? 75);
     await instance.setBool(buffer, instance.getBool(buffer) ?? true);
-    await instance.setBool(stopDetection, instance.getBool(stopDetection) ?? true);
-    await instance.setInt(fastestInterval, instance.getInt(fastestInterval) ?? 30);
+    await instance.setBool(
+      stopDetection,
+      instance.getBool(stopDetection) ?? true,
+    );
+    await instance.setInt(
+      fastestInterval,
+      instance.getInt(fastestInterval) ?? 30,
+    );
   }
 
   static bg.Config geolocationConfig() {
     final isHighestAccuracy = instance.getString(accuracy) == 'highest';
     final locationUpdateInterval = (instance.getInt(interval) ?? 0) * 1000;
-    final fastestLocationUpdateInterval = (instance.getInt(fastestInterval) ?? 30) * 1000;
+    final fastestLocationUpdateInterval =
+        (instance.getInt(fastestInterval) ?? 30) * 1000;
     final heartbeatInterval = instance.getInt(heartbeat) ?? 0;
     return bg.Config(
       enableHeadless: true,
       stopOnTerminate: false,
       startOnBoot: true,
       desiredAccuracy: switch (instance.getString(accuracy)) {
-        'highest' => Platform.isIOS ? bg.Config.DESIRED_ACCURACY_NAVIGATION : bg.Config.DESIRED_ACCURACY_HIGH,
+        'highest' =>
+          Platform.isIOS
+              ? bg.Config.DESIRED_ACCURACY_NAVIGATION
+              : bg.Config.DESIRED_ACCURACY_HIGH,
         'high' => bg.Config.DESIRED_ACCURACY_HIGH,
         'low' => bg.Config.DESIRED_ACCURACY_LOW,
         _ => bg.Config.DESIRED_ACCURACY_MEDIUM,
       },
       autoSync: false,
       url: _formatUrl(instance.getString(url)),
-      params: {
-        'device_id': instance.getString(id),
-      },
-      distanceFilter: isHighestAccuracy ? 0 : instance.getInt(distance)?.toDouble(),
-      locationUpdateInterval: isHighestAccuracy ? 0 : (locationUpdateInterval > 0 ? locationUpdateInterval : null),
+      params: {'device_id': instance.getString(id)},
+      distanceFilter:
+          isHighestAccuracy ? 0 : instance.getInt(distance)?.toDouble(),
+      locationUpdateInterval:
+          isHighestAccuracy
+              ? 0
+              : (locationUpdateInterval > 0 ? locationUpdateInterval : null),
       heartbeatInterval: heartbeatInterval > 0 ? heartbeatInterval : null,
       maxRecordsToPersist: instance.getBool(buffer) != false ? -1 : 1,
       logLevel: bg.Config.LOG_LEVEL_VERBOSE,
@@ -102,12 +161,15 @@ class Preferences {
       preventSuspend: heartbeatInterval > 0,
       disableElasticity: true,
       disableStopDetection: instance.getBool(stopDetection) == false,
-      fastestLocationUpdateInterval: isHighestAccuracy ? 0 : fastestLocationUpdateInterval,
+      fastestLocationUpdateInterval:
+          isHighestAccuracy ? 0 : fastestLocationUpdateInterval,
       backgroundPermissionRationale: bg.PermissionRationale(
-        title: 'Allow {applicationName} to access this device\'s location in the background',
-        message: 'For reliable tracking, please enable {backgroundPermissionOptionLabel} location access.',
+        title:
+            'Allow {applicationName} to access this device\'s location in the background',
+        message:
+            'For reliable tracking, please enable {backgroundPermissionOptionLabel} location access.',
         positiveAction: 'Change to {backgroundPermissionOptionLabel}',
-        negativeAction: 'Cancel'
+        negativeAction: 'Cancel',
       ),
     );
   }
@@ -115,7 +177,8 @@ class Preferences {
   static String? _formatUrl(String? url) {
     if (url == null) return null;
     final uri = Uri.parse(url);
-    if ((uri.path.isEmpty || uri.path == '') && !url.endsWith('/')) return '$url/';
+    if ((uri.path.isEmpty || uri.path == '') && !url.endsWith('/'))
+      return '$url/';
     return url;
   }
 
@@ -162,13 +225,15 @@ class Preferences {
       instance.remove('accuracy_preference');
     }
     final oldIntervalString = instance.getString('frequency_preference');
-    final oldInterval = oldIntervalString != null ? int.tryParse(oldIntervalString) : null;
+    final oldInterval =
+        oldIntervalString != null ? int.tryParse(oldIntervalString) : null;
     if (oldInterval != null) {
       instance.setInt(interval, oldInterval);
       instance.remove('frequency_preference');
     }
     final oldDistanceString = instance.getString('distance_preference');
-    final oldDistance = oldDistanceString != null ? int.tryParse(oldDistanceString) : null;
+    final oldDistance =
+        oldDistanceString != null ? int.tryParse(oldDistanceString) : null;
     if (oldDistance != null) {
       instance.setInt(distance, oldDistance > 0 ? oldDistance : 75);
       instance.remove('distance_preference');
