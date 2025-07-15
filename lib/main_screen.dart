@@ -6,6 +6,8 @@ import 'package:traccar_client/password_service.dart';
 import 'package:traccar_client/preferences.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
+import 'package:traccar_client/screens/auth/auth_screen.dart';
+import 'package:traccar_client/utils/widget_utils.dart';
 
 import 'l10n/app_localizations.dart';
 import 'screens/deliveries.dart';
@@ -222,21 +224,35 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  _buildMenuItems() {
+  Expanded _buildMenuItems() {
+    final loc = AppLocalizations.of(context)!;
     return Expanded(
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.deliveries),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const DeliveriesScreen()),
-              );
-            },
-            leading: Icon(CupertinoIcons.cube_box_fill),
-          ),
-        ],
+      child: MediaQuery.removePadding(
+        context: context,
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(loc.deliveries),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DeliveriesScreen()),
+                );
+              },
+              leading: Icon(CupertinoIcons.cube_box_fill),
+            ),
+            Spacer(),
+            ListTile(
+              onTap: () {
+                gotoClear(widget: AuthScreen());
+              },
+              title: Text(loc.logout),
+              leading: Icon(Icons.logout),
+              textColor: Colors.red,
+              iconColor: Colors.red,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -245,16 +261,18 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Traccar Client')),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text('Traccar Client'),
-              accountEmail: Text('Email'),
-              currentAccountPicture: CircleAvatar(child: Text('A')),
-            ),
-            _buildMenuItems(),
-          ],
+      drawer: SafeArea(
+        child: Drawer(
+          child: Column(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text('Traccar Client'),
+                accountEmail: Text('Email'),
+                currentAccountPicture: CircleAvatar(child: Text('A')),
+              ),
+              _buildMenuItems(),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(

@@ -44,5 +44,6 @@
   "sign": "Signature",
   "didDeliver": "Have you delivered the package?",
   "undo": "Undo",
-  "packageId": "Package ID"
+  "packageId": "Package ID",
+  "logout": "Logout"
 }
