@@ -37,5 +37,12 @@
   "stopLabel": "Stop time",
   "startLabel": "Start time",
   "scheduleLabel": "App schedule",
-  "notSetLabel": "Not set"
+  "notSetLabel": "Not set",
+  "deliveries": "Deliveries",
+  "deliver": "Deliver",
+  "delivered": "Delivered",
+  "sign": "Signature",
+  "didDeliver": "Have you delivered the package?",
+  "undo": "Undo",
+  "packageId": "Package ID"
 }

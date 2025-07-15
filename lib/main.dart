@@ -3,10 +3,13 @@ import 'dart:developer' as developer;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:traccar_client/constants/colors.dart';
 import 'package:traccar_client/geolocation_service.dart';
 import 'package:traccar_client/push_service.dart';
 import 'package:traccar_client/quick_actions.dart';
+import 'package:traccar_client/utils/navigation_service.dart';
 
 import 'l10n/app_localizations.dart';
 import 'main_screen.dart';
@@ -52,28 +55,24 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      navigatorKey: NavigationService.navigatorKey,
       scaffoldMessengerKey: messengerKey,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
+          seedColor: AppColors.primaryColor,
           brightness: Brightness.light,
         ),
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
+          seedColor: AppColors.primaryColor,
           brightness: Brightness.dark,
         ),
       ),
-      home: Stack(
-        children: const [
-          QuickActionsInitializer(),
-          MainScreen(),
-        ],
-      ),
+      home: Stack(children: const [QuickActionsInitializer(), MainScreen()]),
     );
   }
 }

@@ -1,11 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:traccar_client/main.dart';
 import 'package:traccar_client/password_service.dart';
 import 'package:traccar_client/preferences.dart';
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 
 import 'l10n/app_localizations.dart';
+import 'screens/deliveries.dart';
 import 'status_screen.dart';
 import 'settings_screen.dart';
 
@@ -49,22 +52,26 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _checkBatteryOptimizations(BuildContext context) async {
     try {
       if (!await bg.DeviceSettings.isIgnoringBatteryOptimizations) {
-        final request = await bg.DeviceSettings.showIgnoreBatteryOptimizations();
+        final request =
+            await bg.DeviceSettings.showIgnoreBatteryOptimizations();
         if (!request.seen && context.mounted) {
           showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              content: Text(AppLocalizations.of(context)!.optimizationMessage),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    bg.DeviceSettings.show(request);
-                  },
-                  child: Text(AppLocalizations.of(context)!.okButton),
+            builder:
+                (_) => AlertDialog(
+                  content: Text(
+                    AppLocalizations.of(context)!.optimizationMessage,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        bg.DeviceSettings.show(request);
+                      },
+                      child: Text(AppLocalizations.of(context)!.okButton),
+                    ),
+                  ],
                 ),
-              ],
-            ),
           );
         }
       }
@@ -88,7 +95,9 @@ class _MainScreenState extends State<MainScreen> {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(AppLocalizations.of(context)!.idLabel),
-              subtitle: Text(Preferences.instance.getString(Preferences.id) ?? ''),
+              subtitle: Text(
+                Preferences.instance.getString(Preferences.id) ?? '',
+              ),
             ),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
@@ -103,7 +112,9 @@ class _MainScreenState extends State<MainScreen> {
                         _checkBatteryOptimizations(context);
                       }
                     } on PlatformException catch (error) {
-                      messengerKey.currentState?.showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+                      messengerKey.currentState?.showSnackBar(
+                        SnackBar(content: Text(error.message ?? error.code)),
+                      );
                     }
                   } else {
                     bg.BackgroundGeolocation.stop();
@@ -131,16 +142,25 @@ class _MainScreenState extends State<MainScreen> {
                 FilledButton.tonal(
                   onPressed: () async {
                     try {
-                      await bg.BackgroundGeolocation.getCurrentPosition(samples: 1, persist: true, extras: {'manual': true});
+                      await bg.BackgroundGeolocation.getCurrentPosition(
+                        samples: 1,
+                        persist: true,
+                        extras: {'manual': true},
+                      );
                     } on PlatformException catch (error) {
-                      messengerKey.currentState?.showSnackBar(SnackBar(content: Text(error.message ?? error.code)));
+                      messengerKey.currentState?.showSnackBar(
+                        SnackBar(content: Text(error.message ?? error.code)),
+                      );
                     }
                   },
                   child: Text(AppLocalizations.of(context)!.locationButton),
                 ),
                 FilledButton.tonal(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const StatusScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const StatusScreen()),
+                    );
                   },
                   child: Text(AppLocalizations.of(context)!.statusButton),
                 ),
@@ -167,7 +187,9 @@ class _MainScreenState extends State<MainScreen> {
             ListTile(
               contentPadding: EdgeInsets.zero,
               title: Text(AppLocalizations.of(context)!.urlLabel),
-              subtitle: Text(Preferences.instance.getString(Preferences.url) ?? ''),
+              subtitle: Text(
+                Preferences.instance.getString(Preferences.url) ?? '',
+              ),
             ),
             const SizedBox(height: 8),
             OverflowBar(
@@ -175,10 +197,18 @@ class _MainScreenState extends State<MainScreen> {
               children: [
                 FilledButton.tonal(
                   onPressed: () async {
-                    if (await PasswordService.authenticate(context) && mounted) {
-                      await Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen()));
+                    if (await PasswordService.authenticate(context) &&
+                        mounted) {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SettingsScreen(),
+                        ),
+                      );
                       setState(() {
-                        stopDetection = Preferences.instance.getBool(Preferences.stopDetection);
+                        stopDetection = Preferences.instance.getBool(
+                          Preferences.stopDetection,
+                        );
                       });
                     }
                   },
@@ -186,8 +216,27 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ],
             ),
-          ]
+          ],
         ),
+      ),
+    );
+  }
+
+  _buildMenuItems() {
+    return Expanded(
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(AppLocalizations.of(context)!.deliveries),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const DeliveriesScreen()),
+              );
+            },
+            leading: Icon(CupertinoIcons.cube_box_fill),
+          ),
+        ],
       ),
     );
   }
@@ -195,8 +244,18 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Traccar Client'),
+      appBar: AppBar(title: Text('Traccar Client')),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text('Traccar Client'),
+              accountEmail: Text('Email'),
+              currentAccountPicture: CircleAvatar(child: Text('A')),
+            ),
+            _buildMenuItems(),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
