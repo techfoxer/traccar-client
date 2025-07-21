@@ -65,6 +65,20 @@ android {
     }
 }
 
+dependencies {
+    implementation("com.github.tony19:logback-android:2.0.0")
+}
+
+configurations.all {
+    exclude(group = "org.slf4j", module = "slf4j-nop")
+    resolutionStrategy {
+        force("com.github.tony19:logback-android:2.0.0")
+        force("org.slf4j:slf4j-api:1.7.32")
+    }
+}
+
+
+
 flutter {
     source = "../.."
 }

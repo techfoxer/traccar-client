@@ -41,9 +41,15 @@
   "deliveries": "Deliveries",
   "deliver": "Deliver",
   "delivered": "Delivered",
+  "failed": "Failed",
   "sign": "Signature",
   "didDeliver": "Have you delivered the package?",
   "undo": "Undo",
   "packageId": "Package ID",
-  "logout": "Logout"
+  "logout": "Logout",
+  "notes": "Notes",
+  "optional": "Optional",
+  "attachment": "Attachment",
+  "attachmentLabel": "Attach file",
+  "selfieLabel": "Take selfie"
 }
