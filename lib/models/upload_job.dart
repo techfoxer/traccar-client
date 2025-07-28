@@ -5,10 +5,11 @@ class UploadJob {
   final String timestamp;
   final double lat;
   final double lng;
-  final String filePath;
+  String filePath;
   final String fileType;
   final String notes;
   final String signPath;
+  final Map<String, dynamic> extra;
 
   UploadJob({
     required this.deliveryId,
@@ -19,6 +20,7 @@ class UploadJob {
     required this.fileType,
     this.notes = '',
     required this.signPath,
+    this.extra = const {},
   });
 
   Map<String, dynamic> toJson() => {
@@ -30,17 +32,19 @@ class UploadJob {
     'fileType': fileType,
     'notes': notes,
     'signPath': signPath,
+    'extra': extra,
   };
 
   static UploadJob fromJson(Map<String, dynamic> json) => UploadJob(
     deliveryId: json['deliveryId'],
     timestamp: json['timestamp'],
-    lat: json['lat'],
-    lng: json['lng'],
+    lat: (json['lat'] as num).toDouble(),
+    lng: (json['lng'] as num).toDouble(),
     filePath: json['filePath'],
     fileType: json['fileType'],
-    notes: json['notes'],
+    notes: json['notes'] ?? '',
     signPath: json['signPath'],
+    extra: Map<String, dynamic>.from(json['extra'] ?? {}),
   );
 
   File get file => File(filePath);

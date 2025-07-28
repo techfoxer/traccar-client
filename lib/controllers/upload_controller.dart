@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/upload_job.dart';
+import '../utils/compress_media.dart';
 
 class UploadQueue extends GetxController {
   static const _storageKey = 'upload_queue';
@@ -53,6 +55,25 @@ class UploadQueue extends GetxController {
     final job = _queue.first;
 
     try {
+      File file = File(job.filePath);
+
+      // Compress based on file type
+      if (job.fileType == 'image') {
+        file = await compressImageFile(file);
+      } else if (job.fileType == 'video') {
+        file = await compressVideoFile(file);
+      }
+      job.filePath = file.path;
+
+      // Do compression for extra/dynamic fields
+      for (final field in job.extra.entries) {
+        if (field.value['type'] == 'photo') {
+          job.extra[field.key]['value'] = await compressImageFile(
+            File(field.value['value']),
+          );
+        }
+      }
+
       // TODO: Upload to Firebase Storage or server
 
       _queue.removeAt(0);

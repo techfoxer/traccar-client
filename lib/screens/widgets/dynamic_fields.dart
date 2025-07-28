@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:traccar_client/constants/colors.dart';
 import 'package:traccar_client/screens/widgets/start_ellipse_text.dart';
-import 'package:traccar_client/widgets/basic_field.dart';
 import 'sign_pad.dart';
 import 'dart:io';
 
@@ -51,7 +50,10 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextField(
-          onChanged: (value) => _formValues[id] = value,
+          onChanged: (value) {
+            _formValues[id]['type'] = 'text';
+            _formValues[id]['value'] = value;
+          },
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: label,
@@ -71,9 +73,12 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
         Switch(
-          value: _formValues[id] ?? false,
+          value: _formValues[id]['value'] ?? false,
           onChanged: (value) {
-            setState(() => _formValues[id] = value);
+            setState(() {
+              _formValues[id]['type'] = 'toggle';
+              _formValues[id]['value'] = value;
+            });
           },
         ),
       ],
@@ -89,14 +94,17 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
         DropdownButtonFormField(
-          value: _formValues[id],
+          value: _formValues[id]['value'],
           items:
               options
                   .map<DropdownMenuItem<String>>(
                     (opt) => DropdownMenuItem(value: opt, child: Text(opt)),
                   )
                   .toList(),
-          onChanged: (value) => _formValues[id] = value,
+          onChanged: (value) {
+            _formValues[id]['type'] = 'dropdown';
+            _formValues[id]['value'] = value;
+          },
           decoration: const InputDecoration(border: OutlineInputBorder()),
         ),
         const SizedBox(height: 16),
@@ -105,7 +113,7 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
   }
 
   Widget _buildPhotoPicker(String id, String label) {
-    final file = _formValues[id] as File?;
+    final file = _formValues[id]['value'] as File?;
     return Row(
       children: [
         Expanded(
@@ -131,7 +139,8 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
             final picked = await _picker.pickImage(source: ImageSource.camera);
             if (picked != null) {
               setState(() {
-                _formValues[id] = File(picked.path);
+                _formValues[id]['type'] = 'photo';
+                _formValues[id]['value'] = File(picked.path);
               });
             }
           },
@@ -148,7 +157,8 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
         SignaturePad(
           label: label,
           onSigned: (imageFile) {
-            _formValues[id] = imageFile;
+            _formValues[id]['type'] = 'photo';
+            _formValues[id]['value'] = imageFile;
           },
         ),
         const SizedBox(height: 16),
