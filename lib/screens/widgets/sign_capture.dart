@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:signature/signature.dart';
 import 'package:traccar_client/constants/colors.dart';
 import 'package:traccar_client/l10n/app_localizations.dart';
+import 'package:traccar_client/screens/widgets/dynamic_fields.dart';
 import 'package:traccar_client/utils/widget_utils.dart';
 import 'package:traccar_client/widgets/basic_button.dart';
 
@@ -31,8 +32,47 @@ class _SignatureCaptureState extends State<SignatureCapture> {
   File? _attachment;
   File? _selfie;
 
+  DynamicFormWidget? form;
+  final _formKey = GlobalKey<DynamicFormWidgetState>();
+
   @override
   void initState() {
+    form = DynamicFormWidget(
+      formSchema: [
+        {
+          "id": "comment",
+          "label": "Customer Comment",
+          "type": "text",
+          "required": false,
+        },
+        {
+          "id": "deliveredIntact",
+          "label": "Package Delivered Intact?",
+          "type": "toggle",
+          "required": true,
+        },
+        {
+          "id": "deliveryCondition",
+          "label": "Condition of Package",
+          "type": "dropdown",
+          "options": ["Excellent", "Good", "Damaged"],
+          "required": true,
+        },
+        {
+          "id": "packagePhoto",
+          "label": "Upload Package Photo",
+          "type": "photo",
+          "required": false,
+        },
+        {
+          "id": "extraSignature",
+          "label": "Extra Signature",
+          "type": "signature",
+          "required": false,
+        },
+      ],
+      key: _formKey,
+    );
     _controller.addListener(() {
       setState(() {});
     });
@@ -84,6 +124,7 @@ class _SignatureCaptureState extends State<SignatureCapture> {
               _buildAttachment(localization),
               _buildSelfie(localization),
               space(10),
+              if (form != null) form!,
               TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -111,10 +152,10 @@ class _SignatureCaptureState extends State<SignatureCapture> {
           if (_controller.isNotEmpty)
             InkWell(
               onTap: () {
-                _controller.undo();
+                _controller.clear();
               },
               child: Text(
-                localization.undo,
+                localization.clear,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: AppColors.primaryColor,
@@ -130,14 +171,11 @@ class _SignatureCaptureState extends State<SignatureCapture> {
             border: Border.all(color: AppColors.primaryColor),
             borderRadius: radius(5),
           ),
-          width: width,
-          height: width,
           child: ClipRRect(
             borderRadius: radius(5),
             child: Signature(
               controller: _controller,
-              width: width,
-              height: width,
+              height: 150,
               backgroundColor: Colors.white,
             ),
           ),
@@ -167,13 +205,14 @@ class _SignatureCaptureState extends State<SignatureCapture> {
               showSnack(message: localization.sign);
             } else {
               PleaseWait.show();
+              final values = _formKey.currentState!.getFormValues();
               final png = await _controller.toPngBytes();
               final location =
                   await bg.BackgroundGeolocation.getCurrentPosition();
               final time = DateTime.now().millisecondsSinceEpoch;
               print('DEVLOG - Location: $location');
               PleaseWait.close();
-              pop();
+              // pop();
               showSnack(
                 message: localization.delivered,
                 type: SnackType.success,

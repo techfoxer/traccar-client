@@ -51,5 +51,7 @@
   "optional": "Optional",
   "attachment": "Attachment",
   "attachmentLabel": "Attach file",
-  "selfieLabel": "Take selfie"
+  "selfieLabel": "Take selfie",
+  "clear": "Clear",
+  "unsaved": "Unsaved"
 }
