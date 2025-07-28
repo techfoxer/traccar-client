@@ -9,6 +9,7 @@ import 'package:signature/signature.dart';
 import 'package:traccar_client/constants/colors.dart';
 import 'package:traccar_client/l10n/app_localizations.dart';
 import 'package:traccar_client/screens/widgets/dynamic_fields.dart';
+import 'package:traccar_client/screens/widgets/start_ellipse_text.dart';
 import 'package:traccar_client/utils/widget_utils.dart';
 import 'package:traccar_client/widgets/basic_button.dart';
 
@@ -233,13 +234,11 @@ class _SignatureCaptureState extends State<SignatureCapture> {
         ),
         space(5),
         Expanded(
-          child: Text(
+          child: StartEllipsisText(
             _selfie == null
                 ? ''
                 : _selfie!.path.split(Platform.pathSeparator).last,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: AppColors.primaryColor),
+            color: AppColors.primaryColor,
           ),
         ),
         IconButton(
@@ -258,6 +257,7 @@ class _SignatureCaptureState extends State<SignatureCapture> {
 
               print('Selfie taken at $timestamp, Location: ${location.coords}');
               _selfie = File(pickedFile.path);
+              setState(() {});
             }
           },
         ),
@@ -274,13 +274,11 @@ class _SignatureCaptureState extends State<SignatureCapture> {
         ),
         space(5),
         Expanded(
-          child: Text(
+          child: StartEllipsisText(
             _attachment == null
                 ? ''
                 : _attachment!.path.split(Platform.pathSeparator).last,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: AppColors.primaryColor),
+            color: AppColors.primaryColor,
           ),
         ),
         IconButton(
