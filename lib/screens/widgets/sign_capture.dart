@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
@@ -51,7 +50,11 @@ class _SignatureCaptureState extends State<SignatureCapture> {
     final localization = AppLocalizations.of(context)!;
     final width = MediaQuery.of(context).size.width - 40;
     return Scaffold(
-      appBar: AppBar(title: Text(localization.deliver)),
+      appBar: AppBar(
+        title: Text(
+          widget.isFailed ? localization.failed : localization.deliver,
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -156,6 +159,8 @@ class _SignatureCaptureState extends State<SignatureCapture> {
         ),
         SizedBox(width: 10),
         BasicButton(
+          backColor: widget.isFailed ? Colors.red[200] : null,
+          textColor: widget.isFailed ? Colors.white : null,
           text: localization.okButton,
           onPressed: () async {
             if (!widget.isFailed && _controller.isEmpty) {
