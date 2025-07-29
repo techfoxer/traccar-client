@@ -51,8 +51,7 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
       children: [
         TextField(
           onChanged: (value) {
-            _formValues[id]['type'] = 'text';
-            _formValues[id]['value'] = value;
+            _formValues[id] = {'type': 'text', 'value': value};
           },
           decoration: InputDecoration(
             border: OutlineInputBorder(),
@@ -73,11 +72,10 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
         Switch(
-          value: _formValues[id]['value'] ?? false,
+          value: _formValues[id]?['value'] ?? false,
           onChanged: (value) {
             setState(() {
-              _formValues[id]['type'] = 'toggle';
-              _formValues[id]['value'] = value;
+              _formValues[id] = {'type': 'toggle', 'value': value};
             });
           },
         ),
@@ -94,7 +92,7 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
         DropdownButtonFormField(
-          value: _formValues[id]['value'],
+          value: _formValues[id]?['value'],
           items:
               options
                   .map<DropdownMenuItem<String>>(
@@ -102,8 +100,7 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
                   )
                   .toList(),
           onChanged: (value) {
-            _formValues[id]['type'] = 'dropdown';
-            _formValues[id]['value'] = value;
+            _formValues[id] = {'type': 'dropdown', 'value': value};
           },
           decoration: const InputDecoration(border: OutlineInputBorder()),
         ),
@@ -113,7 +110,7 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
   }
 
   Widget _buildPhotoPicker(String id, String label) {
-    final file = _formValues[id]['value'] as File?;
+    final file = _formValues[id]?['value'] as File?;
     return Row(
       children: [
         Expanded(
@@ -139,8 +136,7 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
             final picked = await _picker.pickImage(source: ImageSource.camera);
             if (picked != null) {
               setState(() {
-                _formValues[id]['type'] = 'photo';
-                _formValues[id]['value'] = File(picked.path);
+                _formValues[id] = {'type': 'photo', 'value': File(picked.path)};
               });
             }
           },
@@ -157,8 +153,7 @@ class DynamicFormWidgetState extends State<DynamicFormWidget> {
         SignaturePad(
           label: label,
           onSigned: (imageFile) {
-            _formValues[id]['type'] = 'photo';
-            _formValues[id]['value'] = imageFile;
+            _formValues[id] = {'type': 'photo', 'value': imageFile};
           },
         ),
         const SizedBox(height: 16),
